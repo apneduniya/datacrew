@@ -1,6 +1,7 @@
 {
-    "name": "Next PWA demo",
-    "short_name": "Next PWA",
+    "name": "Datacrew",
+    "short_name": "Datacrew",
+    "description": "A data-to-earn platform.",
     "icons": [
       {
         "src": "/logo.jpg",
