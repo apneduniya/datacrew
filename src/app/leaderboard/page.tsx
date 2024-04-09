@@ -32,7 +32,7 @@ export default function Leaderboard() {
     const b = JSON.parse(a);
     const program = new Program(b, idl.metadata.address, provider);
 
-    const points: Array<object> = await program.account.userPoints.all();
+    const points: Array<object | any> = await program.account.userPoints.all();
     for (let i = 0; i < points.length; i++) {
       console.log(points[i]);
       console.log(points[i].account.owner);
@@ -62,7 +62,7 @@ export default function Leaderboard() {
     }
 
     // points ranking logic
-    setUser((prev) => prev.sort((a, b) => parseInt(b.point) - parseInt(a.point)));
+    setUser((prev) => prev.sort((a: any, b: any) => parseInt(b.point) - parseInt(a.point)));
 
     // console.log(points);
   }

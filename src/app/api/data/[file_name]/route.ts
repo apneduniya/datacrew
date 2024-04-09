@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 // Initialize
-process.env.DETA_PROJECT_KEY = process.env.NEXT_PUBLIC_DETA_PROJECT_KEY;
+process.env.DETA_PROJECT_KEY! = process.env.NEXT_PUBLIC_DETA_PROJECT_KEY!;
 const deta = Deta();
 
 
@@ -14,7 +14,7 @@ const video_drive = deta.Drive('video');
 const audio_drive = deta.Drive('audio');
 
 
-const project_id = process.env.NEXT_PUBLIC_DETA_PROJECT_KEY?.split('_')[0];
+const project_id = process.env.NEXT_PUBLIC_DETA_PROJECT_KEY!.split('_')[0];
 
 
 type Params = {

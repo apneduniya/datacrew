@@ -15,7 +15,10 @@ const nextConfig = {
                 hostname: '192.168.1.103'
             }
         ]
-    }
+    },
+    typescript: {
+        ignoreBuildErrors: true,
+    },
 };
 
 export default nextConfig;

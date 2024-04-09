@@ -4,7 +4,7 @@
 import PrimaryButton from "@/components/common/button/PrimaryButton";
 import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { ConnectionProvider, WalletProvider, useAnchorWallet, useWallet as useAdapterWallet, AnchorWallet, WalletContext } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { AnchorProvider, Program, web3 } from "@project-serum/anchor";
@@ -23,17 +23,16 @@ import {
   DrawerDescription,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { title } from "process";
 import Link from "next/link";
 
 
-export default function Create() {
+function Create() {
   const searchParams = useSearchParams();
   let assetURL = searchParams.get("assetFileName");
   assetURL = `${process.env.NEXT_PUBLIC_BASE_URL}/api/data/` + assetURL;
   const assetType = searchParams.get("assetType");
   const [airDrop, setAirDrop] = useState(false);
-  const [state, setState] = useState({ title: "", description: "" });
+  const [state, setState] = useState<{ title: string, description: JSX.Element }>({ title: "", description: <span></span> });
 
   const connection = new Connection("https://api.devnet.solana.com");
 
@@ -58,10 +57,10 @@ export default function Create() {
 
     console.log("Program...");
 
-    let dataAccountKP = web3.Keypair.fromSecretKey(new Uint8Array(process.env.NEXT_PUBLIC_DATA_ACCOUNT_SECRET_KEY.split(",").map(Number)));
+    let dataAccountKP = web3.Keypair.fromSecretKey(new Uint8Array(process.env.NEXT_PUBLIC_DATA_ACCOUNT_SECRET_KEY!.split(",").map(Number)));
     console.log(dataAccountKP.publicKey.toString());
 
-    let pointsAccountKP = web3.Keypair.fromSecretKey(new Uint8Array(process.env.NEXT_PUBLIC_POINTS_ACCOUNT_PUBLIC_KEY.split(",").map(Number)));
+    let pointsAccountKP = web3.Keypair.fromSecretKey(new Uint8Array(process.env.NEXT_PUBLIC_POINTS_ACCOUNT_PUBLIC_KEY!.split(",").map(Number)));
     console.log(pointsAccountKP.publicKey.toString());
 
     // const user = web3.Keypair.generate();
@@ -100,7 +99,8 @@ export default function Create() {
     e.preventDefault();
     console.log(formData);
 
-    setState({ title: "In process...", description: "Please wait don't go away. It will just take few seconds!" });
+    // setState({ title: "In process...", description: "Please wait don't go away. It will just take few seconds!" });
+    setState({ title: "In process...", description: <span>Please wait don&apos;t go away. It will just take few seconds!</span> });
 
     await saveData();
   }
@@ -168,3 +168,13 @@ export default function Create() {
     </>
   );
 }
+
+
+export default function SuspenseCreate() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Create />
+    </Suspense>
+  );
+}
+
